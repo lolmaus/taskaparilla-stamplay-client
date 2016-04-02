@@ -6,8 +6,7 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('login');
-  this.route('signup');
+  this.route('auth');
   this.route('tasks', {path: '/'});
 });
 

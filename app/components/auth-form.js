@@ -1,5 +1,5 @@
-import Ember  from 'ember';
-import {task} from 'ember-concurrency';
+import Ember            from 'ember';
+import {task,taskGroup} from 'ember-concurrency';
 
 const {
   Component,
@@ -11,16 +11,17 @@ export default Component.extend({
 
   // ----- Services -----
   ajaxStamplay: service(),
+  session:      service(),
   store:        service(),
 
 
 
   // ----- Overridden properties -----
-  classNames: ['signupForm'],
+  classNames: ['authForm'],
 
 
 
-  // ----- Static properties -----
+  // ----- Static propeties -----
   user: computed(function () {
     return this
       .get('store')
@@ -28,7 +29,7 @@ export default Component.extend({
   }),
 
   newUserDefaults: {
-     email:    'lolmaus+1@gmail.com',
+     email:    'lolmaus@gmail.com',
      password: 'asdfasdf'
   },
 
@@ -46,7 +47,24 @@ export default Component.extend({
 
 
   // ----- Tasks -----
-  signup: task(function * () {
+  authTaskGroup: taskGroup().drop(),
+
+  loginTask: task(function * () {
+    const authenticationData = {
+      email:    this.get('user.email'),
+      password: this.get('user.password')
+    };
+
+    yield this
+      .get('session')
+      .authenticate('authenticator:stamplay', authenticationData)
+      .then(() => {
+        this.reset();
+      });
+  }).group('authTaskGroup'),
+
+
+  signupTask: task(function * () {
     const createUserData = {
       email:    this.get('user.email'),
       password: this.get('user.password')
@@ -58,5 +76,6 @@ export default Component.extend({
       .then(() => {
         this.reset();
       });
-  }).drop()
+  }).group('authTaskGroup'),
+
 });

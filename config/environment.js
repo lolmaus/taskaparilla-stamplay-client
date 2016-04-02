@@ -23,6 +23,7 @@ module.exports = function(environment) {
     },
 
     'ember-simple-auth': {
+      authenticationRoute:         'auth',
       routeAfterAuthentication:    'tasks',
       routeIfAlreadyAuthenticated: 'tasks'
     }
