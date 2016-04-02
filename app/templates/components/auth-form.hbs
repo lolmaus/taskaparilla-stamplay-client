@@ -31,4 +31,11 @@
   >
     {{if signupTask.isIdle 'Signup' 'Signing in...'}}
   </button>
+
+  <button
+    disabled={{authTaskGroup.isRunning}}
+    {{action 'socialAuth' 'github'}}
+  >
+    Github OAuth
+  </button>
 {{/v-form}}

@@ -78,4 +78,14 @@ export default Component.extend({
       });
   }).group('authTaskGroup'),
 
+
+  // ----- Actions -----
+  actions: {
+    socialAuth (service) {
+      this
+        .get('ajaxStamplay')
+        .socialAuth(service);
+    }
+  }
+
 });

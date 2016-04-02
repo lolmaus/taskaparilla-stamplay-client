@@ -8,6 +8,7 @@ const Router = Ember.Router.extend({
 Router.map(function() {
   this.route('auth');
   this.route('tasks', {path: '/'});
+  this.route('accept-social-auth');
 });
 
 export default Router;
