@@ -1,3 +1,14 @@
 <h2 id="title">Welcome to Ember</h2>
 
+{{#with-service 'session' as |session|}}
+  {{#if session.isAuthenticated}}
+    <a
+      href
+      {{action (route-action 'logout')}}
+    >Logout</a>
+  {{/if}}
+{{/with-service}}
+
+<hr>
+
 {{outlet}}

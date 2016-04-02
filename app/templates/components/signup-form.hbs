@@ -1,0 +1,26 @@
+{{#v-form model=user submitAction=(perform signup)}}
+  {{#v-form-group property="email"}}
+    <label>Email</label>
+
+    {{input
+      placeholder="Type your name or see an error"
+      value=user.email
+    }}
+  {{/v-form-group}}
+
+  {{#v-form-group property="password"}}
+    <label>Password</label>
+
+    {{input
+      type="password"
+      value=user.password
+      placeholder="Don't be careless"
+    }}
+  {{/v-form-group}}
+
+  {{#v-form-submit
+    disabled=login.isRunning
+  }}
+    {{if signup.isIdle 'Submit' 'Submitting'}}
+  {{/v-form-submit}}
+{{/v-form}}
