@@ -22,6 +22,8 @@ export default Component.extend({
 
 
   // ----- Static propeties -----
+  errorText: null,
+
   user: computed(function () {
     return this
       .get('store')
@@ -32,6 +34,19 @@ export default Component.extend({
      email:    'lolmaus@gmail.com',
      password: 'asdfasdf'
   },
+  
+  
+  
+  // ----- Computed properties -----
+  effectiveErrorText: computed('errorText', function () {
+    const errorText = this.get('errorText');
+    
+    if (errorText && errorText.trim() === 'Illegal arguments: string, undefined') {
+      return "You don't have a password set. Login via social service, then set your password";
+    }
+    
+    return errorText;
+  }),
 
 
 
@@ -42,6 +57,23 @@ export default Component.extend({
     this
       .get('user')
       .setProperties(newUserDefaults);
+
+    this.set('errorText', null);
+  },
+
+  parseError (data) {
+    const errorText =
+      data
+      && data.response
+      && data.response.errors
+      && data.response.errors[0]
+      && data.response.errors[0].detail.error.message;
+
+    if (!errorText) {
+      throw data;
+    }
+
+    this.setProperties({errorText});
   },
 
 
@@ -60,7 +92,8 @@ export default Component.extend({
       .authenticate('authenticator:stamplay', authenticationData)
       .then(() => {
         this.reset();
-      });
+      })
+      .catch(data => this.parseError(data));
   }).group('authTaskGroup'),
 
 
@@ -75,7 +108,8 @@ export default Component.extend({
       .createUserAndAuthenticate(createUserData)
       .then(() => {
         this.reset();
-      });
+      })
+      .catch(data => this.parseError(data));
   }).group('authTaskGroup'),
 
 

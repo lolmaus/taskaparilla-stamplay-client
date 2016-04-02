@@ -1,4 +1,10 @@
 {{#v-form model=user }}
+  {{#if effectiveErrorText}}
+    <p>
+      {{effectiveErrorText}}
+    </p>
+  {{/if}}
+
   {{#v-form-group property="email"}}
     <label>Email</label>
 
