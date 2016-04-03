@@ -1,5 +1,19 @@
 <h3>Tasks</h3>
 
+{{new-task
+  user=currentUser
+}}
+
 <p>
-  Current User id: {{model.currentUser.id}}
+  Total count: {{existingTasks.length}}
 </p>
+
+{{#if existingTasks.length}}
+  <ul>
+    {{#each existingTasks as |task|}}
+      <li>
+        {{task-item task=task}}
+      </li>
+    {{/each}}
+  </ul>
+{{/if}}

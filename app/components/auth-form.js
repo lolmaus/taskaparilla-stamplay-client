@@ -1,11 +1,12 @@
 import Ember            from 'ember';
-import {task,taskGroup} from 'ember-concurrency';
 
 const {
   Component,
   computed,
   inject: {service}
 } = Ember;
+
+import {task, taskGroup} from 'ember-concurrency';
 
 export default Component.extend({
 

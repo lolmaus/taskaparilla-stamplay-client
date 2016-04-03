@@ -1,0 +1,23 @@
+{{#v-form model=task }}
+  {{#if effectiveErrorText}}
+    <p>
+      {{effectiveErrorText}}
+    </p>
+  {{/if}}
+
+  {{#v-form-group property="email"}}
+    <label>Name</label>
+
+    {{input
+      placeholder="Type your name"
+      value=task.name
+    }}
+  {{/v-form-group}}
+
+  <button
+    disabled={{saveTask.isRunning}}
+    {{action (perform saveTask)}}
+  >
+    {{if saveTask.isIdle 'Save' 'Saving...'}}
+  </button>
+{{/v-form}}
